@@ -285,11 +285,7 @@
 #endif
 
 #ifndef SECONDARY_LZMA
-#ifdef HAVE_LZMA_H
-#define SECONDARY_LZMA 1
-#else
 #define SECONDARY_LZMA 0
-#endif
 #endif
 
 #if XD3_ENCODER
@@ -3321,7 +3317,14 @@ xd3_encode_input (xd3_stream *stream)
       return XD3_INTERNAL;
     }
 }
+#else
+// Need to define the symbol in order for Go compiler checks to pass.
+int xd3_encode_input(xd3_stream *stream) {
+    stream->msg = "encoder not compiled in.";
+    return XD3_INTERNAL;
+}
 #endif /* XD3_ENCODER */
+
 
 /*****************************************************************
  Client convenience functions
